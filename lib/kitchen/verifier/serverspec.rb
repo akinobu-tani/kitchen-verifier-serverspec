@@ -137,7 +137,7 @@ module Kitchen
                 #{sudo_env('yum')} -y install ruby
               else
                 if [ -f /etc/system-release ] && grep -q 'Amazon Linux' /etc/system-release; then
-                  #{sudo_env('yum')} -y install ruby ruby-devel
+                  #{sudo_env('yum')} -y install ruby
                 else
                   #{sudo_env('apt-get')} -y install ruby
                 fi
@@ -175,6 +175,7 @@ module Kitchen
               if [ \"$(#{sudo('gem')} list bundler -i)\" = \"false\" ]; then
                 #{sudo_env('gem')} install #{gem_proxy_parm} --no-ri --no-rdoc bundler
                 if [ -f /etc/system-release ] && grep -q 'Amazon Linux' /etc/system-release; then
+                  #{sudo_env('yum')} -y install gcc ruby-devel
                   #{sudo_env('gem')} install #{gem_proxy_parm} --no-ri --no-rdoc io-console
                 fi
               else
