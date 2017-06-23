@@ -174,6 +174,10 @@ module Kitchen
             else
               if [ \"$(#{sudo('gem')} list bundler -i)\" = \"false\" ]; then
                 #{sudo_env('gem')} install #{gem_proxy_parm} --no-ri --no-rdoc bundler
+                if [ -f /etc/system-release ] && grep -q 'Amazon Linux' /etc/system-release; then
+                  #{sudo_env('yum')} -y install gcc ruby-devel
+                  #{sudo_env('gem')} install #{gem_proxy_parm} --no-ri --no-rdoc io-console
+                fi
               else
                 echo "ERROR: Ruby not installed correctly"
                 exit 1
